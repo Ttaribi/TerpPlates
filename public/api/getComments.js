@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
   try {
     await client.connect();
 
-    const comments = await client.db("your-database-name").collection("comments").find().toArray();
+    const comments = await client.db("terpPlates").collection("251UserComments").find().toArray();
 
     res.status(200).json(comments);
   } catch (error) {

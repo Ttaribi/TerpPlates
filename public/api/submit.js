@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     await client.connect();
 
     const commentData = req.body;
-    const result = await client.db("your-database-name").collection("comments").insertOne(commentData);
+    const result = await client.db("terpPlates").collection("251UserComments").insertOne(commentData);
 
     res.status(200).send('Comment saved');
   } catch (error) {

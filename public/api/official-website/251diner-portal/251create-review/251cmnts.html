@@ -50,25 +50,25 @@ Create a Comment
     
 
     <script>
-      // // Prevent the form from being submitted normally, and submit it via JavaScript instead
-      // document.getElementById('comment-form').addEventListener('submit', async (event) => {
-      //   event.preventDefault();
+      // Prevent the form from being submitted normally, and submit it via JavaScript instead
+      document.getElementById('comment-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-      //   const formData = new FormData(event.target);
-      //   const data = Object.fromEntries(formData);
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
 
-      //   const response = await fetch(event.target.action, {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify(data)
-      //   });
+        const response = await fetch(event.target.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
 
-      //   if (!response.ok) {
-      //     console.error('Error submitting comment');
-      //   }
-      // });
+        if (!response.ok) {
+          console.error('Error submitting comment');
+        }
+      });
     </script>
 
 

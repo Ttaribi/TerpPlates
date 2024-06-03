@@ -53,6 +53,9 @@ Create a Comment
       // Prevent the form from being submitted normally, and submit it via JavaScript instead
       document.getElementById('comment-form').addEventListener('submit', async (event) => {
         event.preventDefault();
+        <a href="/index.html">
+          
+        </a>
 
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
@@ -68,9 +71,7 @@ Create a Comment
 
         if (!response.ok) {
           console.error('Error submitting comment');
-          <a href="/index.html">
           
-        </a>
         }
       });
     </script>

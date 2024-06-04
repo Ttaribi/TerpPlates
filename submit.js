@@ -1,15 +1,18 @@
-// api/submit.js
-const MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 
-module.exports = async (req, res) => {
-  const uri = process.env.MONGODB_URI;
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+dotenv.config();
 
+const uri = process.env.MONGO_URL;
+const client = new MongoClient(uri);
+
+const submitHandler = async (req, res) => {
   try {
     await client.connect();
 
     const commentData = req.body;
-    const result = await client.db("terpPlates").collection("251UserComments").insertOne(commentData);
+    const result = await client.db('terpplate').collection('251UserComments').insertOne(commentData);
+    console.log('Insert result:', result); // Log the result
 
     res.status(200).send('Comment saved');
   } catch (error) {
@@ -19,3 +22,5 @@ module.exports = async (req, res) => {
     await client.close();
   }
 };
+
+export default submitHandler;

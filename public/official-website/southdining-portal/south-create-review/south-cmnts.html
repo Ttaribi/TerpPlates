@@ -26,7 +26,7 @@ Create a Comment
         </div>
         <div class="middle-header-text">
           TerpPlates  
-          <img class="logo-pic" src="/official-website/icons/tp-logo.png">
+          <!-- <img class="logo-pic" src="/official-website/icons/tp-logo.png"> -->
         </div>
         <div class="right-header">
           <button class="header-buttons"> About
@@ -36,7 +36,7 @@ Create a Comment
 
 
       <div class = "container">
-        <form class="wholeform">
+        <form class="wholeform" id="comment-form">
             <h3>Create comments</h3>
             <input type="text" id="name" placeholder="Your name" >
             <input type="email" id="email" placeholder="Email id" >
@@ -50,28 +50,28 @@ Create a Comment
     
 
     <script>
+      // Prevent the form from being submitted normally, and submit it via JavaScript instead
+      document.getElementById('comment-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+       
 
-document.querySelector('.wholeform').addEventListener('submit', (event) => {
-  event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
 
-  //const name = document.getElementById('name').value;
- // const email = document.getElementById('email').value;
-  const phone = document.getElementById('phone').value;
-  const comment = document.querySelector('.review-comment').value;
+        const response = await fetch(event.target.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+          
+        });
 
-  fetch('http://localhost:3000/submit', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({  phone, comment }),
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-});
+        if (!response.ok) {
+          console.error('Error submitting comment');
+          
+        }
+      });
     </script>
 
 

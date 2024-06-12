@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 const app = express();
-const port = 3000; // Change to your desired port
+const port = 3000; // Ensure this is set to 3000
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 // MongoDB connection URI
 const uri = 'mongodb+srv://mtaribi18:Yewaboma4!@tmt.r7y7civ.mongodb.net/'; // Replace with your MongoDB URI
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri); // Removed deprecated options
 
 // Connect to MongoDB
 async function connectToDatabase() {

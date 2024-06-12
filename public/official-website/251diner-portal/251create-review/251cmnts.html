@@ -51,29 +51,34 @@ Create a Comment
     
 
     <script>
-      // Prevent the form from being submitted normally, and submit it via JavaScript instead
-      document.getElementById('comment-form').addEventListener('submit', async (event) => {
+      document.getElementById('commentForm').addEventListener('submit', function(event) {
         event.preventDefault();
-       
-
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData);
-
-        const response = await fetch(event.target.action, {
+  
+        const formData = {
+          name: document.getElementById('name').value,
+          comment: document.getElementById('comment').value
+        };
+  
+        fetch('/submit-comment', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(data)
-          
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.text())
+        .then(data => {
+          console.log('Success:', data);
+          alert('Comment submitted successfully!');
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('Error submitting comment');
         });
-
-        if (!response.ok) {
-          console.error('Error submitting comment');
-          
-        }
       });
     </script>
+  </body>
+  </html>
 
 
 </body>

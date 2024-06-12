@@ -1,40 +1,43 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import submitHandler from './submit.js';
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
-dotenv.config();
-app.use(express.json()); // Middleware to parse JSON bodies
 
-const PORT = process.env.PORT || 8001; // Change to the new port
-const MONGOURL = process.env.MONGO_URL;
+// Middleware
+app.use(bodyParser.json());
 
-mongoose.connect(MONGOURL).then(() => {
-    console.log('Database connected');
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-    });
-}).catch((error) => console.log(error));
+// MongoDB connection string (replace with your own)
+const dbURI = 'mongodb+srv://mtaribi18:Yewaboma4!@tmt.r7y7civ.mongodb.net/';
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.log(err));
 
-// Define your user schema and model
-const userSchema = new mongoose.Schema({
-    email: String,
-    comment: String,
+// Define a schema and model for the form data
+const commentSchema = new mongoose.Schema({
+  name: String,
+  comment: String,
+  date: { type: Date, default: Date.now }
 });
 
-const UserModel = mongoose.model('UserComments', userSchema);
+const Comment = mongoose.model('Comment', commentSchema);
 
-// Basic test route
+// Route to handle form submissions
+app.post('/submit-comment', (req, res) => {
+  const comment = new Comment(req.body);
+  comment.save()
+    .then(() => res.status(200).send('Comment saved'))
+    .catch(err => res.status(400).send('Error saving comment: ' + err));
+});
+
+// Serve the HTML file from the correct path
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', (req, res) => {
-    res.send('Server is working!');
+  res.sendFile(path.join(__dirname, 'public', 'official-website', '251diner-portal', '251create-review', '251cmnts.html'));
 });
 
-// Route to get users
-app.get('/getUsers', async (req, res) => {
-    const userData = await UserModel.find();
-    res.json(userData);
-});
-
-// Route to handle comment submission
-app.post('/api/submit', submitHandler);
+// Start the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Server running on port ${port}`));

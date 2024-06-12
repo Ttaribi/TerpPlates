@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // MongoDB connection string (replace with your own)
-const dbURI = 'mongodb+srv://mtaribi18:Yewaboma4!@tmt.r7y7civ.mongodb.net/';
+const dbURI = 'mongodb+srv://mtaribi18:Yewaboma4!@tmt.r7y7civ.mongodb.net/terpPlates?retryWrites=true&w=majority';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err));
@@ -21,7 +21,7 @@ const commentSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now }
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
+const Comment = mongoose.model('Comment', commentSchema, '251UserComments');
 
 // Route to handle form submissions
 app.post('/submit-comment', (req, res) => {

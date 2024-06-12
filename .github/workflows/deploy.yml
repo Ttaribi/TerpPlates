@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated to v3 which uses Node.js 20
 
       - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+        uses: webfactory/ssh-agent@v0.7.0  # Updated to a version that uses Node.js 20
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}  # Ensure this secret is added to your GitHub repository
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
       - name: Deploy to EC2
         run: |

@@ -1,10 +1,12 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
-const path = require('path');
+import express from 'express';
+import bodyParser from 'body-parser';
+import { MongoClient } from 'mongodb';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const app = express();
-const port = 3000; // Change to your desired port
+const port = 80; // Change to your desired port
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,6 +45,9 @@ app.post('/submit-comment', async (req, res) => {
 });
 
 // Serve your HTML file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/official-website/251-portal-251create-review/251cmnts.html'));
 });

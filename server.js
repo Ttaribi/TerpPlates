@@ -49,7 +49,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/official-website/251-portal-251create-review/251cmnts.html'));
+  res.sendFile(path.join(__dirname, 'public/official-website/251diner-portal/251create-review/251cmnts.html'));
 });
 
 // Route to fetch and display comments

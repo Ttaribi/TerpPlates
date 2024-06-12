@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 const app = express();
-const port = 80; // Change to your desired port
+const port = 3000; // Change to your desired port
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));

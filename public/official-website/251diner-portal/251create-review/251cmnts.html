@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>
-Create a Comment
-</title>
+<title>Create a Comment</title>
 
 <link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/header-251cmnts.css">
 <link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/body-251cmnts.css">
@@ -12,80 +10,63 @@ Create a Comment
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
 
-
 </head>
-
 <body>
 
-    <div class="header">
-
-        <div class="left-header">
-          <a href="/index.html">
-          <button class="header-buttons"> Home </button>
-        </a>
-        </div>
-        <div class="middle-header-text">
-          TerpPlates  
-          <!-- <img class="logo-pic" src="/official-website/icons/tp-logo.png"> -->
-        </div>
-        <div class="right-header">
-          <button class="header-buttons"> About
-          </button>
-        </div>
-      </div>
-
-
-      <div class = "container">
-        <form class="wholeform" id="comment-form">
-            <h3>Create comments</h3>
-            <input type="text" id="name" placeholder="Your name" >
-            <input type="email" id="email" placeholder="Email id" >
-            <input type="text" id="phone" placeholder="Phone no." >
-            <textarea class="review-comment" rows="4" placeholder="Type in a review."></textarea>
-            
-            <button type="submit">Send</button>
-
-        </form>
-    
+<div class="header">
+    <div class="left-header">
+      <a href="/index.html">
+      <button class="header-buttons"> Home </button>
+      </a>
     </div>
-    
+    <div class="middle-header-text">
+      TerpPlates  
+    </div>
+    <div class="right-header">
+      <button class="header-buttons"> About </button>
+    </div>
+</div>
 
-    <script>
-      document.getElementById('commentForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-  
-        const formData = {
-          name: document.getElementById('name').value,
-          comment: document.getElementById('comment').value
-        };
+<div class="container">
+    <form class="wholeform" id="commentForm">
+        <h3>Create comments</h3>
+        <input type="text" id="name" name="name" placeholder="Your name" required>
+        <input type="email" id="email" name="email" placeholder="Email id" required>
+        <input type="text" id="phone" name="phone" placeholder="Phone no." required>
+        <textarea class="review-comment" id="comment" name="comment" rows="4" placeholder="Type in a review." required></textarea>
+        <button type="submit">Send</button>
+    </form>
+</div>
 
-  
-        fetch('/submit-comment', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        })
-        
-        .then(response => response.text())
-        .then(data => {
-          console.log('Success:', data);
-          alert('Comment submitted successfully!');
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          alert('Error submitting comment');
-        });
-      });
-    </script>
-  </body>
-  </html>
+<script>
+  document.getElementById('commentForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
+    const formData = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      comment: document.getElementById('comment').value
+    };
+
+    fetch('/submit-comment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.text())
+    .then(data => {
+      console.log('Success:', data);
+      alert('Comment submitted successfully!');
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('Error submitting comment');
+    });
+  });
+</script>
 
 </body>
-
-
-
-
 </html>

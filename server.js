@@ -1,43 +1,49 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const path = require('path');
+const { MongoClient } = require('mongodb');
 
 const app = express();
+const port = 3000; // Change to your desired port
 
-// Middleware
+// Middleware to parse form data
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// MongoDB connection string (replace with your own)
-const dbURI = 'y';
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log(err));
+// MongoDB connection URI
+const uri = 'mongodb+srv://mtaribi18:Yewaboma4!@tmt.r7y7civ.mongodb.net/'; // Replace with your MongoDB URI
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-// Define a schema and model for the form data
-const commentSchema = new mongoose.Schema({
-  name: String,
-  comment: String,
-  date: { type: Date, default: Date.now }
+// Connect to MongoDB
+async function connectToDatabase() {
+    try {
+        await client.connect();
+        console.log('Connected to database');
+    } catch (error) {
+        console.error(error);
+    }
+}
+connectToDatabase();
+
+// Handle form submission
+app.post('/submit-comment', async (req, res) => {
+    const formData = req.body;
+
+    try {
+        const database = client.db('terpPlates'); // Replace with your database name
+        const collection = database.collection('251UserComments'); // Replace with your collection name
+        await collection.insertOne(formData);
+        res.send('Form data submitted successfully');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error submitting form data');
+    }
 });
 
-const Comment = mongoose.model('Comment', commentSchema, '251UserComments');
-
-// Route to handle form submissions
-app.post('/submit-comment', (req, res) => {
-  const comment = new Comment(req.body);
-  comment.save()
-    .then(() => res.status(200).send('Comment saved'))
-    .catch(err => res.status(400).send('Error saving comment: ' + err));
-});
-
-// Serve the HTML file from the correct path
-app.use(express.static(path.join(__dirname, 'public')));
-
+// Serve your HTML file
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'official-website', '251diner-portal', '251create-review', '251cmnts.html'));
+  res.sendFile(path.join(__dirname, 'public/official-website/251-portal-251create-review/251cmnts.html'));
 });
 
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
